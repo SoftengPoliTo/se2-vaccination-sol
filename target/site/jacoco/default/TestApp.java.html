@@ -94,87 +94,91 @@ import it.polito.oop.vaccination.Vaccines;
 <span class="nc" id="L94">    	vs.loadPeople(new FileReader(&quot;people.csv&quot;));</span>
     	
 <span class="nc" id="L96">    	assertEquals(19997,vs.countPeople());</span>
-    	
-    	// R4
-<span class="nc" id="L99">    	vs.setHours(8,8,8,8,8,6,4); // 8 hours mon to fri, 6 hours on sat and 4 hours on sun</span>
-    	
-<span class="nc" id="L101">    	List&lt;List&lt;String&gt;&gt; hours = vs.getHours();</span>
 
-<span class="nc" id="L103">    	assertEquals(7,hours.size());</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">    	assertTrue(&quot;Every day must have at least 16 time slots&quot;, hours.stream().allMatch( d -&gt; d.size() &gt;= 16) );</span>
-<span class="nc" id="L105">    	assertTrue(&quot;Every day should start at 09:00&quot;, hours.stream().map( d-&gt; d.get(0)).allMatch(s -&gt; s.equals(&quot;09:00&quot;)) );</span>
-<span class="nc" id="L106">    	assertEquals(&quot;Overall there shoudl be 200 time slosts&quot;, 4*(8+8+8+8+8+6+4), hours.stream().mapToInt( d -&gt; d.size()).sum() );</span>
+
+    	// R4 - skipped
+    	/*
+		vs.setHours(8,8,8,8,8,6,4); // 8 hours mon to fri, 6 hours on sat and 4 hours on sun
     	
-<span class="nc" id="L108">    	int av1_3 = vs.getDailyAvailable(&quot;Hub 1&quot;, 3);</span>
-<span class="nc" id="L109">    	int av1_6 = vs.getDailyAvailable(&quot;Hub 1&quot;, 6);</span>
-<span class="nc" id="L110">    	assertEquals(&quot;In hub 1 there should be 8 * 70 available places on wed&quot;, 560, av1_3);</span>
-<span class="nc" id="L111">    	assertEquals(&quot;In hub 1 there should be 4 * 70 available places on sun&quot;, 280, av1_6);</span>
+    	List&lt;List&lt;String&gt;&gt; hours = vs.getHours();
+
+    	assertEquals(7,hours.size());
+    	assertTrue(&quot;Every day must have at least 16 time slots&quot;, hours.stream().allMatch( d -&gt; d.size() &gt;= 16) );
+    	assertTrue(&quot;Every day should start at 09:00&quot;, hours.stream().map( d-&gt; d.get(0)).allMatch(s -&gt; s.equals(&quot;09:00&quot;)) );
+    	assertEquals(&quot;Overall there shoudl be 200 time slosts&quot;, 4*(8+8+8+8+8+6+4), hours.stream().mapToInt( d -&gt; d.size()).sum() );
     	
-<span class="nc" id="L113">    	Map&lt;String,List&lt;Integer&gt;&gt; availability = vs.getAvailable();</span>
-<span class="nc" id="L114">    	assertNotNull(&quot;Missing availability&quot;, availability);</span>
-<span class="nc" id="L115">    	assertTrue(&quot;Not all hubs reported in availability&quot;, availability.keySet().containsAll(vs.getHubs()));</span>
-<span class="nc" id="L116">    	int totalAvailable = availability.values().stream().flatMap(List::stream).mapToInt(Integer::intValue).sum();</span>
-<span class="nc" id="L117">    	assertEquals(&quot;Total available places is wrong&quot;, 6800, totalAvailable);</span>
+    	int av1_3 = vs.getDailyAvailable(&quot;Hub 1&quot;, 3);
+    	int av1_6 = vs.getDailyAvailable(&quot;Hub 1&quot;, 6);
+    	assertEquals(&quot;In hub 1 there should be 8 * 70 available places on wed&quot;, 560, av1_3);
+    	assertEquals(&quot;In hub 1 there should be 4 * 70 available places on sun&quot;, 280, av1_6);
     	
+    	Map&lt;String,List&lt;Integer&gt;&gt; availability = vs.getAvailable();
+    	assertNotNull(&quot;Missing availability&quot;, availability);
+    	assertTrue(&quot;Not all hubs reported in availability&quot;, availability.keySet().containsAll(vs.getHubs()));
+    	int totalAvailable = availability.values().stream().flatMap(List::stream).mapToInt(Integer::intValue).sum();
+    	assertEquals(&quot;Total available places is wrong&quot;, 6800, totalAvailable);
+    	*/
+
+
     	// R5
-<span class="nc" id="L120">    	List&lt;String&gt; alloc = vs.allocate(&quot;Hub 1&quot;, 1);</span>
-<span class="nc" id="L121">    	assertNotNull(alloc);</span>
-<span class="nc" id="L122">    	assertEquals(&quot;wrong number of allocated people&quot;, 70*8, alloc.size() );</span>
-<span class="nc bnc" id="L123" title="All 4 branches missed.">    	long count_60_70 = alloc.stream().map(vs::getAge).filter(a -&gt; a&gt;=60 &amp;&amp; a&lt;70).count();</span>
-<span class="nc" id="L124">    	assertEquals(&quot;Wrong number of people in [60,70)&quot;,70*8*24/100, count_60_70);</span>
+<span class="nc" id="L124">    	List&lt;String&gt; alloc = vs.allocate(&quot;Hub 1&quot;, 1);</span>
+<span class="nc" id="L125">    	assertNotNull(alloc);</span>
+<span class="nc" id="L126">    	assertEquals(&quot;wrong number of allocated people&quot;, 70*8, alloc.size() );</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">    	long count_60_70 = alloc.stream().map(vs::getAge).filter(a -&gt; a&gt;=60 &amp;&amp; a&lt;70).count();</span>
+<span class="nc" id="L128">    	assertEquals(&quot;Wrong number of people in [60,70)&quot;,70*8*24/100, count_60_70);</span>
 
-<span class="nc bnc" id="L126" title="All 2 branches missed.">    	long count_over_70 = alloc.stream().map(vs::getAge).filter(a -&gt; a&gt;=70).count();</span>
-<span class="nc" id="L127">    	assertEquals(&quot;Wrong number of people over 70, should be 40% + 4.8%&quot;,Math.round(70*8*0.448), count_over_70);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">    	long count_over_70 = alloc.stream().map(vs::getAge).filter(a -&gt; a&gt;=70).count();</span>
+<span class="nc" id="L131">    	assertEquals(&quot;Wrong number of people over 70, should be 40% + 4.8%&quot;,Math.round(70*8*0.448), count_over_70);</span>
 
-<span class="nc" id="L129">    	vs.clearAllocation();</span>
-<span class="nc" id="L130">    	List&lt;String&gt; alloc2 = vs.allocate(&quot;Hub 1&quot;, 1);</span>
-<span class="nc" id="L131">    	assertEquals(&quot;Should get the same result&quot;, alloc, alloc2);</span>
-<span class="nc" id="L132">    	vs.clearAllocation();</span>
+<span class="nc" id="L133">    	vs.clearAllocation();</span>
+<span class="nc" id="L134">    	List&lt;String&gt; alloc2 = vs.allocate(&quot;Hub 1&quot;, 1);</span>
+<span class="nc" id="L135">    	assertEquals(&quot;Should get the same result&quot;, alloc, alloc2);</span>
+<span class="nc" id="L136">    	vs.clearAllocation();</span>
 
     	
-<span class="nc" id="L135">    	List&lt;Map&lt;String,List&lt;String&gt;&gt;&gt; wp = vs.weekAllocate();</span>
-<span class="nc" id="L136">    	assertNotNull(&quot;Missing week allocations plan&quot;, wp);</span>
-<span class="nc" id="L137">    	assertEquals(&quot;Week plan should span a whole week&quot;, 7, wp.size());</span>
+<span class="nc" id="L139">    	List&lt;Map&lt;String,List&lt;String&gt;&gt;&gt; wp = vs.weekAllocate();</span>
+<span class="nc" id="L140">    	assertNotNull(&quot;Missing week allocations plan&quot;, wp);</span>
+<span class="nc" id="L141">    	assertEquals(&quot;Week plan should span a whole week&quot;, 7, wp.size());</span>
     	
-<span class="nc" id="L139">    	int countAllocated = wp.stream().flatMap(m -&gt; m.values().stream()).mapToInt(List::size).sum();</span>
-<span class="nc" id="L140">    	assertEquals(&quot;Wrong number of allocated people&quot;, 6800, countAllocated);</span>
+<span class="nc" id="L143">    	int countAllocated = wp.stream().flatMap(m -&gt; m.values().stream()).mapToInt(List::size).sum();</span>
+<span class="nc" id="L144">    	assertEquals(&quot;Wrong number of allocated people&quot;, 6800, countAllocated);</span>
     	
     	
     	// R6
-<span class="nc" id="L144">    	double propAlloc = vs.propAllocated();</span>
-<span class="nc" id="L145">    	assertEquals(&quot;Wring proportion of allocated persons&quot;, 0.34,propAlloc,0.01);</span>
+<span class="nc" id="L148">    	double propAlloc = vs.propAllocated();</span>
+<span class="nc" id="L149">    	assertEquals(&quot;Wring proportion of allocated persons&quot;, 0.34,propAlloc,0.01);</span>
     	
-<span class="nc" id="L147">    	Map&lt;String,Double&gt; allInAge = vs.propAllocatedAge();</span>
-<span class="nc" id="L148">    	System.out.println(&quot;People 70+ : &quot; + vs.getInInterval(&quot;[70,+)&quot;).size());</span>
-<span class="nc" id="L149">    	long countAllocated70 = wp.stream().flatMap(m -&gt; m.values().stream()).</span>
-<span class="nc bnc" id="L150" title="All 2 branches missed.">    							flatMap(List::stream).filter(ssn-&gt;vs.getAge(ssn)&gt;=70).count();</span>
-<span class="nc" id="L151">    	System.out.println(&quot;Allocated people 70+ : &quot; + countAllocated70);</span>
-<span class="nc" id="L152">    	assertNotNull(&quot;Missing prop allocated in age interval&quot;, allInAge);</span>
-<span class="nc" id="L153">    	assertEquals(&quot;There should be six intervals&quot;, 6, allInAge.size());</span>
-<span class="nc" id="L154">    	assertEquals(&quot;~15% of people over 70 should be allocated&quot;, 0.15, allInAge.get(&quot;[70,+)&quot;), 0.01);</span>
+<span class="nc" id="L151">    	Map&lt;String,Double&gt; allInAge = vs.propAllocatedAge();</span>
+<span class="nc" id="L152">    	System.out.println(&quot;People 70+ : &quot; + vs.getInInterval(&quot;[70,+)&quot;).size());</span>
+<span class="nc" id="L153">    	long countAllocated70 = wp.stream().flatMap(m -&gt; m.values().stream()).</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">    							flatMap(List::stream).filter(ssn-&gt;vs.getAge(ssn)&gt;=70).count();</span>
+<span class="nc" id="L155">    	System.out.println(&quot;Allocated people 70+ : &quot; + countAllocated70);</span>
+<span class="nc" id="L156">    	assertNotNull(&quot;Missing prop allocated in age interval&quot;, allInAge);</span>
+<span class="nc" id="L157">    	assertEquals(&quot;There should be six intervals&quot;, 6, allInAge.size());</span>
+<span class="nc" id="L158">    	assertEquals(&quot;~15% of people over 70 should be allocated&quot;, 0.15, allInAge.get(&quot;[70,+)&quot;), 0.01);</span>
 
     	
-<span class="nc" id="L157">    	Map&lt;String,Double&gt; distribution = vs.distributionAllocated();</span>
-<span class="nc" id="L158">    	assertNotNull(&quot;Missing distribution&quot;, distribution);</span>
-<span class="nc" id="L159">    	assertEquals(&quot;There shoild be size age intervals&quot;, 6,distribution.size());</span>
-<span class="nc" id="L160">    	assertEquals(&quot;Wrong propotion of over 70 among allocated&quot;, 0.448, distribution.get(&quot;[70,+)&quot;), 0.01);</span>
-<span class="nc" id="L161">    	assertEquals(&quot;Wrong propotion of [60,70) among allocated&quot;, 0.4*0.6, distribution.get(&quot;[60,70)&quot;), 0.01);</span>
+<span class="nc" id="L161">    	Map&lt;String,Double&gt; distribution = vs.distributionAllocated();</span>
+<span class="nc" id="L162">    	assertNotNull(&quot;Missing distribution&quot;, distribution);</span>
+<span class="nc" id="L163">    	assertEquals(&quot;There shoild be size age intervals&quot;, 6,distribution.size());</span>
+<span class="nc" id="L164">    	assertEquals(&quot;Wrong propotion of over 70 among allocated&quot;, 0.448, distribution.get(&quot;[70,+)&quot;), 0.01);</span>
+<span class="nc" id="L165">    	assertEquals(&quot;Wrong propotion of [60,70) among allocated&quot;, 0.4*0.6, distribution.get(&quot;[60,70)&quot;), 0.01);</span>
 
     	
     	// R7
-<span class="nc" id="L165">    	Map&lt;Integer,String&gt; errors = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L166">    	vs.setLoadListener((i,l)-&gt; errors.put(i, l) );</span>
-<span class="nc" id="L167">    	String incomplete=&quot;SSN,LAST,FIRST,YEAR\n&quot;+				//1: header</span>
+<span class="nc" id="L169">    	Map&lt;Integer,String&gt; errors = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L170">    	vs.setLoadListener((i,l)-&gt; errors.put(i, l) );</span>
+<span class="nc" id="L171">    	String incomplete=&quot;SSN,LAST,FIRST,YEAR\n&quot;+				//1: header</span>
     					  &quot;ABCDEF01G23H456I,Smith,John,1923\n&quot;+  //2: ok
     					  &quot;ABCDEF01G23H456I,Smith,John,1923\n&quot;+  //3: duplicated ssn
     					  &quot;ABCFED01G23H987J,Smith\n&quot;+ 			//4: missing first name
     					  &quot;&quot;;
-<span class="nc" id="L172">    	StringReader sr = new StringReader(incomplete);</span>
-<span class="nc" id="L173">    	vs.loadPeople(sr);</span>
-<span class="nc" id="L174">    	assertEquals(&quot;Wrong number of errors&quot;, 2, errors.size());</span>
-<span class="nc" id="L175">    	assertTrue(&quot;Expected errors on lines 3,4,5 but got: &quot; + errors.keySet(), </span>
-<span class="nc" id="L176">    			   errors.keySet().containsAll(Arrays.asList(3,4)));</span>
-<span class="nc" id="L177">    }</span>
+<span class="nc" id="L176">    	StringReader sr = new StringReader(incomplete);</span>
+<span class="nc" id="L177">    	vs.loadPeople(sr);</span>
+<span class="nc" id="L178">    	assertEquals(&quot;Wrong number of errors&quot;, 2, errors.size());</span>
+<span class="nc" id="L179">    	assertTrue(&quot;Expected errors on lines 3,4,5 but got: &quot; + errors.keySet(), </span>
+<span class="nc" id="L180">    			   errors.keySet().containsAll(Arrays.asList(3,4)));</span>
+<span class="nc" id="L181">    }</span>
     
     
     
@@ -198,24 +202,24 @@ import it.polito.oop.vaccination.Vaccines;
      * @return			the set of person descriptions
      */
     private Set&lt;String&gt; generateAndAddPerson( int n, PersonListener listener) {
-<span class="nc" id="L201">    	HashSet&lt;String&gt; cfs = new HashSet&lt;&gt;();</span>
-<span class="nc" id="L202">    	HashSet&lt;String&gt; people = new HashSet&lt;&gt;();</span>
-<span class="nc bnc" id="L203" title="All 2 branches missed.">    	while(cfs.size() &lt; n) {</span>
-<span class="nc" id="L204">	    	String first = pick(firsts,rg);</span>
-<span class="nc" id="L205">	    	String last = pick(lasts,rg);</span>
-<span class="nc" id="L206">	    	int year = 1922+rg.nextInt(2021-1921);</span>
-<span class="nc" id="L207">	    	String place = pick(places,rg);</span>
-<span class="nc" id="L208">	    	char cin1 = ((char) ('A'+rg.nextInt('Z'-'A')));</span>
-<span class="nc" id="L209">	    	char cin2 = ((char) ('A'+rg.nextInt('Z'-'A')));</span>
-<span class="nc" id="L210">	    	String ssn=toCode(last)+toCode(first)+(year%100)+place+cin1+cin2; // generate a fake ssn (codice fiscale)</span>
+<span class="nc" id="L205">    	HashSet&lt;String&gt; cfs = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L206">    	HashSet&lt;String&gt; people = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">    	while(cfs.size() &lt; n) {</span>
+<span class="nc" id="L208">	    	String first = pick(firsts,rg);</span>
+<span class="nc" id="L209">	    	String last = pick(lasts,rg);</span>
+<span class="nc" id="L210">	    	int year = 1922+rg.nextInt(2021-1921);</span>
+<span class="nc" id="L211">	    	String place = pick(places,rg);</span>
+<span class="nc" id="L212">	    	char cin1 = ((char) ('A'+rg.nextInt('Z'-'A')));</span>
+<span class="nc" id="L213">	    	char cin2 = ((char) ('A'+rg.nextInt('Z'-'A')));</span>
+<span class="nc" id="L214">	    	String ssn=toCode(last)+toCode(first)+(year%100)+place+cin1+cin2; // generate a fake ssn (codice fiscale)</span>
 	    			  
-<span class="nc" id="L212">	    	String person = ssn + &quot;,&quot; + last + &quot;,&quot; + first + &quot;,&quot; + year;</span>
-<span class="nc bnc" id="L213" title="All 2 branches missed.">	    	if(cfs.add(ssn)){ // skip possible duplicates</span>
-<span class="nc" id="L214">	    		people.add(person);</span>
-<span class="nc bnc" id="L215" title="All 2 branches missed.">	    		if(listener!=null) listener.handlePerson(first, last, ssn, year);</span>
+<span class="nc" id="L216">	    	String person = ssn + &quot;,&quot; + last + &quot;,&quot; + first + &quot;,&quot; + year;</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">	    	if(cfs.add(ssn)){ // skip possible duplicates</span>
+<span class="nc" id="L218">	    		people.add(person);</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">	    		if(listener!=null) listener.handlePerson(first, last, ssn, year);</span>
 	    	}
-<span class="nc" id="L217">    	}</span>
-<span class="nc" id="L218">    	return people;</span>
+<span class="nc" id="L221">    	}</span>
+<span class="nc" id="L222">    	return people;</span>
     }
 
     /**
@@ -235,18 +239,18 @@ import it.polito.oop.vaccination.Vaccines;
      * @return			the set of person descriptions
      */
     private Set&lt;String&gt; generatePersons( int n) {
-<span class="nc" id="L238">    	return generateAndAddPerson(n,null);</span>
+<span class="nc" id="L242">    	return generateAndAddPerson(n,null);</span>
     }
 
 
-<span class="nc" id="L242">    static String[] firsts = {&quot;Ali&quot;,&quot;Anna&quot;,&quot;Enrica&quot;,&quot;Giorgio&quot;,&quot;Luca&quot;,&quot;Lucia&quot;,&quot;Mario&quot;,&quot;Miriam&quot;,&quot;Paola&quot;,&quot;Xavier&quot;};</span>
-<span class="nc" id="L243">    static String[] lasts = {&quot;Abaco&quot;,&quot;Draghi&quot;,&quot;Letto&quot;,&quot;Melone&quot;,&quot;Mattei&quot;,&quot;Russo&quot;,&quot;Neri&quot;,&quot;Rossi&quot;,&quot;Verdi&quot;,&quot;Xavier&quot;};</span>
-<span class="nc" id="L244">    static String[] places = {&quot;L219&quot;,&quot;A213&quot;,&quot;F789&quot;,&quot;G456&quot;,&quot;H501&quot;,&quot;Z403&quot;,&quot;R129&quot;};</span>
+<span class="nc" id="L246">    static String[] firsts = {&quot;Ali&quot;,&quot;Anna&quot;,&quot;Enrica&quot;,&quot;Giorgio&quot;,&quot;Luca&quot;,&quot;Lucia&quot;,&quot;Mario&quot;,&quot;Miriam&quot;,&quot;Paola&quot;,&quot;Xavier&quot;};</span>
+<span class="nc" id="L247">    static String[] lasts = {&quot;Abaco&quot;,&quot;Draghi&quot;,&quot;Letto&quot;,&quot;Melone&quot;,&quot;Mattei&quot;,&quot;Russo&quot;,&quot;Neri&quot;,&quot;Rossi&quot;,&quot;Verdi&quot;,&quot;Xavier&quot;};</span>
+<span class="nc" id="L248">    static String[] places = {&quot;L219&quot;,&quot;A213&quot;,&quot;F789&quot;,&quot;G456&quot;,&quot;H501&quot;,&quot;Z403&quot;,&quot;R129&quot;};</span>
     
     private static String pick(String [] options, Random r) {
-<span class="nc" id="L247">    	return options[r.nextInt(options.length)];</span>
+<span class="nc" id="L251">    	return options[r.nextInt(options.length)];</span>
     }
-<span class="nc" id="L249">    private static Random rg = new Random(1971);</span>
+<span class="nc" id="L253">    private static Random rg = new Random(1971);</span>
     
     /**
      * Take a name (first or last) and emulates 
@@ -256,12 +260,12 @@ import it.polito.oop.vaccination.Vaccines;
      * @return
      */
     private static String toCode(String name) {
-<span class="nc" id="L259">    	name = name.toUpperCase();</span>
-<span class="nc" id="L260">    	String consonants = name.replaceAll(&quot;[AEIOU ]&quot;, &quot;&quot;);</span>
-<span class="nc" id="L261">    	String vouels = name.replaceAll(&quot;[^AEIOU]&quot;, &quot;&quot;);</span>
-<span class="nc" id="L262">    	return (consonants+vouels).substring(0,3);</span>
+<span class="nc" id="L263">    	name = name.toUpperCase();</span>
+<span class="nc" id="L264">    	String consonants = name.replaceAll(&quot;[AEIOU ]&quot;, &quot;&quot;);</span>
+<span class="nc" id="L265">    	String vouels = name.replaceAll(&quot;[^AEIOU]&quot;, &quot;&quot;);</span>
+<span class="nc" id="L266">    	return (consonants+vouels).substring(0,3);</span>
     }
     
-<span class="nc" id="L265">    final static int CURRENT_YEAR=java.time.LocalDate.now().getYear();</span>
+<span class="nc" id="L269">    final static int CURRENT_YEAR=java.time.LocalDate.now().getYear();</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

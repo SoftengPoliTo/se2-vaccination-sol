@@ -23,12 +23,12 @@ class Hub {
 <span class="fc" id="L23">		this.other = other;</span>
 <span class="fc" id="L24">	}</span>
 	
-<span class="fc" id="L26">	public String getName() { return name; }</span>
+<span class="nc" id="L26">	public String getName() { return name; }</span>
 	
 	public List&lt;Integer&gt; availability(int[] hours) throws VaccineException{
-<span class="fc" id="L29">		int c = estimateCapacity();</span>
-<span class="fc" id="L30">		return Arrays.stream(hours).mapToObj( h -&gt; c*h )</span>
-<span class="fc" id="L31">				.collect(Collectors.toList());</span>
+<span class="nc" id="L29">		int c = estimateCapacity();</span>
+<span class="nc" id="L30">		return Arrays.stream(hours).mapToObj( h -&gt; c*h )</span>
+<span class="nc" id="L31">				.collect(Collectors.toList());</span>
 	}
 	
 	public int estimateCapacity() throws VaccineException {
