@@ -1,0 +1,7 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Coverage with JaCoCo,default,TestApp,915,0,18,0,124,0,26,0,17,0
+Coverage with JaCoCo,it.polito.oop.vaccination,Hub,0,77,0,2,0,16,0,7,0,6
+Coverage with JaCoCo,it.polito.oop.vaccination,Person,3,59,0,2,1,14,1,9,1,8
+Coverage with JaCoCo,it.polito.oop.vaccination,VaccineException,4,4,0,0,1,1,1,1,1,1
+Coverage with JaCoCo,it.polito.oop.vaccination,Vaccines,115,725,14,40,19,127,20,52,7,38
+Coverage with JaCoCo,it.polito.oop.vaccination,Vaccines.Interval,9,71,2,6,2,11,2,8,1,5

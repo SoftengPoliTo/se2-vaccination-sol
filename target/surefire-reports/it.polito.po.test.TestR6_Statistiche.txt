@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: it.polito.po.test.TestR6_Statistiche
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.319 s <<< FAILURE! - in it.polito.po.test.TestR6_Statistiche
-testPropAllocatedAge(it.polito.po.test.TestR6_Statistiche)  Time elapsed: 0.121 s  <<< FAILURE!
-java.lang.AssertionError: Wrong proportion: expected 16% or 53% but was 54%
-	at it.polito.po.test.TestR6_Statistiche.testPropAllocatedAge(TestR6_Statistiche.java:52)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.212 s - in it.polito.po.test.TestR6_Statistiche

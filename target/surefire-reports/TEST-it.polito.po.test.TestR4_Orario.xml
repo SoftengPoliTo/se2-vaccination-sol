@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.polito.po.test.TestR4_Orario" time="0.004" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.polito.po.test.TestR4_Orario" time="0.046" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -58,7 +58,7 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testHours" classname="it.polito.po.test.TestR4_Orario" time="0.003"/>
+  <testcase name="testHours" classname="it.polito.po.test.TestR4_Orario" time="0.046"/>
   <testcase name="testHourOver12" classname="it.polito.po.test.TestR4_Orario" time="0"/>
   <testcase name="testAvailable" classname="it.polito.po.test.TestR4_Orario" time="0"/>
   <testcase name="testDailyAvailable" classname="it.polito.po.test.TestR4_Orario" time="0"/>

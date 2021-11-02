@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Hub.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Coverage with JaCoCo</a> &gt; <a href="index.source.html" class="el_package">it.polito.oop.vaccination</a> &gt; <span class="el_source">Hub.java</span></div><h1>Hub.java</h1><pre class="source lang-java linenums">package it.polito.oop.vaccination;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+class Hub {
+	private static final int DOCTOR_CAPACITY = 10;
+	private static final int NURSES_CAPACITY = 12;
+	private static final int OTHER_CAPACITY = 20;
+	private String name;
+<span class="fc" id="L12">	private int doctors=-1;</span>
+<span class="fc" id="L13">	private int nurses=-1;</span>
+<span class="fc" id="L14">	private int other=-1;</span>
+	
+<span class="fc" id="L16">	Hub(String name){</span>
+<span class="fc" id="L17">		this.name=name;</span>
+<span class="fc" id="L18">	}</span>
+
+	public void setStaff(int doctors, int nurses, int other) {
+<span class="fc" id="L21">		this.doctors = doctors;</span>
+<span class="fc" id="L22">		this.nurses = nurses;</span>
+<span class="fc" id="L23">		this.other = other;</span>
+<span class="fc" id="L24">	}</span>
+	
+<span class="fc" id="L26">	public String getName() { return name; }</span>
+	
+	public List&lt;Integer&gt; availability(int[] hours) throws VaccineException{
+<span class="fc" id="L29">		int c = estimateCapacity();</span>
+<span class="fc" id="L30">		return Arrays.stream(hours).mapToObj( h -&gt; c*h )</span>
+<span class="fc" id="L31">				.collect(Collectors.toList());</span>
+	}
+	
+	public int estimateCapacity() throws VaccineException {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">		if(doctors==-1) throw  new VaccineException(&quot;Cannot estimate capacity without staff in hub &quot; + name);</span>
+<span class="fc" id="L36">		return Math.min( doctors * DOCTOR_CAPACITY, Math.min(nurses*NURSES_CAPACITY, other*OTHER_CAPACITY));</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
