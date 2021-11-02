@@ -19,14 +19,8 @@
         <slf4j.version>1.7.25</slf4j.version>
             <sonar.organization>se2</sonar.organization>
             <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-       
-      <!--  <sonar.projectKey>phisaz_CopyJChecs</sonar.projectKey>
-        <sonar.organization>se2</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-         <sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
-         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-      -->
-        </properties>
+
+      </properties>
 
    
     <dependencies>
@@ -49,7 +43,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
+            <!-- <scope>test</scope> --> <!-- main class contains junit too -->
         </dependency>
     </dependencies>
 
@@ -69,8 +63,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.6.1</version>
                     <configuration>
-                        <source>${jdk.version}</source>
-                        <target>${jdk.version}</target>
+                        <source>1.8</source> <!-- java 8! -->
+                        <target>1.8</target> <!-- java 8! -->
                     </configuration>
                 </plugin>
                 <plugin>
