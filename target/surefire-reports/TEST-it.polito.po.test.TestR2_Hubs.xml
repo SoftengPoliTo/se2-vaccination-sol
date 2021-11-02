@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.polito.po.test.TestR2_Hubs" time="0.111" tests="7" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.polito.po.test.TestR2_Hubs" time="0.127" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -58,11 +58,11 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testCapacityUnstaffed" classname="it.polito.po.test.TestR2_Hubs" time="0.02"/>
-  <testcase name="testHubStaffNegative" classname="it.polito.po.test.TestR2_Hubs" time="0.018"/>
-  <testcase name="textCapacity" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
-  <testcase name="testCreateHubs" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
-  <testcase name="testHubStaffWrongHub" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
-  <testcase name="testCapacityNonexist" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
-  <testcase name="testDuplicateHub" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
+  <testcase name="testCapacityUnstaffed" classname="it.polito.po.test.TestR2_Hubs" time="0.017"/>
+  <testcase name="testHubStaffNegative" classname="it.polito.po.test.TestR2_Hubs" time="0.024"/>
+  <testcase name="textCapacity" classname="it.polito.po.test.TestR2_Hubs" time="0.017"/>
+  <testcase name="testCreateHubs" classname="it.polito.po.test.TestR2_Hubs" time="0.016"/>
+  <testcase name="testHubStaffWrongHub" classname="it.polito.po.test.TestR2_Hubs" time="0.018"/>
+  <testcase name="testCapacityNonexist" classname="it.polito.po.test.TestR2_Hubs" time="0.019"/>
+  <testcase name="testDuplicateHub" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
 </testsuite>

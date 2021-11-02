@@ -13,8 +13,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.8</jdk.version>
-        <junit.version>4.12</junit.version>
+        <jdk.version>11</jdk.version>
+        <junit.version>4.13.2</junit.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
             <sonar.organization>se2</sonar.organization>
@@ -25,20 +25,7 @@
 
    
     <dependencies>
-        <!-- Logging. -->
-        <!-- <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        -->
+
         <!-- Tests. -->
         <dependency>
             <groupId>junit</groupId>
@@ -64,8 +51,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.6.1</version>
                     <configuration>
-                        <source>1.8</source> <!-- java 8! -->
-                        <target>1.8</target> <!-- java 8! -->
+                        <source>11</source> <!-- java 11 for maven + sonar! -->
+                        <target>11</target> <!-- java 11 for maven + sonar! -->
                     </configuration>
                 </plugin>
                 <plugin>
@@ -83,6 +70,7 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.0.2</version>
                 </plugin>
+             <!--
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
@@ -96,6 +84,7 @@
                         </execution>
                     </executions>
                 </plugin>
+                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>

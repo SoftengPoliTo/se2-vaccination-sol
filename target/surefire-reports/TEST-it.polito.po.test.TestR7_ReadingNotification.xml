@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.polito.po.test.TestR7_ReadingNotification" time="0.007" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.polito.po.test.TestR7_ReadingNotification" time="0.006" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -61,6 +61,6 @@
   <testcase name="testIncomplete" classname="it.polito.po.test.TestR7_ReadingNotification" time="0"/>
   <testcase name="testLoadPeople" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.002"/>
   <testcase name="testLoadPeopleNoErr" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.002"/>
-  <testcase name="testWrongHeader1" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.002"/>
-  <testcase name="testWrongHeader2" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.001"/>
+  <testcase name="testWrongHeader1" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.001"/>
+  <testcase name="testWrongHeader2" classname="it.polito.po.test.TestR7_ReadingNotification" time="0"/>
 </testsuite>
