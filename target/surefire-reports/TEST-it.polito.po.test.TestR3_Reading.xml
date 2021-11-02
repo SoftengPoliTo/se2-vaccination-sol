@@ -60,6 +60,6 @@
   </properties>
   <testcase name="testIncomplete" classname="it.polito.po.test.TestR3_Reading" time="0"/>
   <testcase name="testLoadPeople" classname="it.polito.po.test.TestR3_Reading" time="0.001"/>
-  <testcase name="testWrongHeader1" classname="it.polito.po.test.TestR3_Reading" time="0.001"/>
+  <testcase name="testWrongHeader1" classname="it.polito.po.test.TestR3_Reading" time="0"/>
   <testcase name="testWrongHeader2" classname="it.polito.po.test.TestR3_Reading" time="0"/>
 </testsuite>
