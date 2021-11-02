@@ -58,35 +58,35 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="tesGetPerson" classname="it.polito.po.test.TestR1_Persons" time="0.001"/>
+  <testcase name="tesGetPerson" classname="it.polito.po.test.TestR1_Persons" time="0"/>
   <testcase name="testAddMultiplePersons" classname="it.polito.po.test.TestR1_Persons" time="0"/>
   <testcase name="testPersonsInIntervals" classname="it.polito.po.test.TestR1_Persons" time="0.014"/>
   <testcase name="testAddPerson" classname="it.polito.po.test.TestR1_Persons" time="0"/>
   <testcase name="testIntervals" classname="it.polito.po.test.TestR1_Persons" time="0"/>
   <testcase name="tesGetAge" classname="it.polito.po.test.TestR1_Persons" time="0"/>
   <testcase name="testCapacityUnstaffed" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
-  <testcase name="testHubStaffNegative" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
+  <testcase name="testHubStaffNegative" classname="it.polito.po.test.TestR2_Hubs" time="0.013"/>
   <testcase name="textCapacity" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
   <testcase name="testCreateHubs" classname="it.polito.po.test.TestR2_Hubs" time="0.013"/>
-  <testcase name="testHubStaffWrongHub" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
-  <testcase name="testCapacityNonexist" classname="it.polito.po.test.TestR2_Hubs" time="0.013"/>
-  <testcase name="testDuplicateHub" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
+  <testcase name="testHubStaffWrongHub" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
+  <testcase name="testCapacityNonexist" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
+  <testcase name="testDuplicateHub" classname="it.polito.po.test.TestR2_Hubs" time="0.014"/>
   <testcase name="testIncomplete" classname="it.polito.po.test.TestR3_Reading" time="0.001"/>
   <testcase name="testLoadPeople" classname="it.polito.po.test.TestR3_Reading" time="0.003"/>
   <testcase name="testWrongHeader1" classname="it.polito.po.test.TestR3_Reading" time="0.001"/>
   <testcase name="testWrongHeader2" classname="it.polito.po.test.TestR3_Reading" time="0.001"/>
-  <testcase name="testHours" classname="it.polito.po.test.TestR4_Orario" time="0.036"/>
+  <testcase name="testHours" classname="it.polito.po.test.TestR4_Orario" time="0.038"/>
   <testcase name="testHourOver12" classname="it.polito.po.test.TestR4_Orario" time="0"/>
   <testcase name="testAvailable" classname="it.polito.po.test.TestR4_Orario" time="0"/>
   <testcase name="testDailyAvailable" classname="it.polito.po.test.TestR4_Orario" time="0"/>
-  <testcase name="testAllocate" classname="it.polito.po.test.TestR5_Pianificazione" time="0.027"/>
-  <testcase name="testClearAllocate" classname="it.polito.po.test.TestR5_Pianificazione" time="0.048"/>
-  <testcase name="testAllocateDetail" classname="it.polito.po.test.TestR5_Pianificazione" time="0.034"/>
-  <testcase name="testAllocate2" classname="it.polito.po.test.TestR5_Pianificazione" time="0.03"/>
-  <testcase name="testAllocateWeek" classname="it.polito.po.test.TestR5_Pianificazione" time="0.172"/>
-  <testcase name="propAllocated" classname="it.polito.po.test.TestR6_Statistiche" time="0.093"/>
-  <testcase name="testDistributionAllocated" classname="it.polito.po.test.TestR6_Statistiche" time="0.108"/>
-  <testcase name="testPropAllocatedAge" classname="it.polito.po.test.TestR6_Statistiche" time="0.112">
+  <testcase name="testAllocate" classname="it.polito.po.test.TestR5_Pianificazione" time="0.025"/>
+  <testcase name="testClearAllocate" classname="it.polito.po.test.TestR5_Pianificazione" time="0.054"/>
+  <testcase name="testAllocateDetail" classname="it.polito.po.test.TestR5_Pianificazione" time="0.029"/>
+  <testcase name="testAllocate2" classname="it.polito.po.test.TestR5_Pianificazione" time="0.032"/>
+  <testcase name="testAllocateWeek" classname="it.polito.po.test.TestR5_Pianificazione" time="0.168"/>
+  <testcase name="propAllocated" classname="it.polito.po.test.TestR6_Statistiche" time="0.103"/>
+  <testcase name="testDistributionAllocated" classname="it.polito.po.test.TestR6_Statistiche" time="0.112"/>
+  <testcase name="testPropAllocatedAge" classname="it.polito.po.test.TestR6_Statistiche" time="0.103">
     <failure message="Wrong proportion: expected 16% or 53% but was 54%" type="java.lang.AssertionError">java.lang.AssertionError: Wrong proportion: expected 16% or 53% but was 54%
 	at it.polito.po.test.TestR6_Statistiche.testPropAllocatedAge(TestR6_Statistiche.java:52)
 </failure>
@@ -94,6 +94,6 @@
   <testcase name="testIncomplete" classname="it.polito.po.test.TestR7_ReadingNotification" time="0"/>
   <testcase name="testLoadPeople" classname="it.polito.po.test.TestR7_ReadingNotification" time="0"/>
   <testcase name="testLoadPeopleNoErr" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.001"/>
-  <testcase name="testWrongHeader1" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.002"/>
+  <testcase name="testWrongHeader1" classname="it.polito.po.test.TestR7_ReadingNotification" time="0.001"/>
   <testcase name="testWrongHeader2" classname="it.polito.po.test.TestR7_ReadingNotification" time="0"/>
 </testsuite>
