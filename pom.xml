@@ -31,7 +31,7 @@
    
     <dependencies>
         <!-- Logging. -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -43,6 +43,7 @@
             <version>${logback.version}</version>
             <scope>runtime</scope>
         </dependency>
+        -->
         <!-- Tests. -->
         <dependency>
             <groupId>junit</groupId>
@@ -170,3 +171,4 @@
 
         </plugins>
     </build>
+</project>
