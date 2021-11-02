@@ -1,0 +1,9 @@
+it/polito/po/test/TestR7_ReadingNotification.class
+it/polito/po/test/TestR3_Reading.class
+it/polito/po/test/TestR5_Pianificazione.class
+it/polito/po/test/TestR2_Hubs.class
+it/polito/po/test/TestR4_Orario.class
+it/polito/po/test/TestR6_Statistiche.class
+it/polito/po/test/TestR1_Persons.class
+it/polito/po/test/AllTests.class
+it/polito/po/test/TestUtils.class

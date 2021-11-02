@@ -59,8 +59,8 @@
     <property name="java.class.version" value="61.0"/>
   </properties>
   <testcase name="tesGetPerson" classname="it.polito.po.test.TestR1_Persons" time="0"/>
-  <testcase name="testAddMultiplePersons" classname="it.polito.po.test.TestR1_Persons" time="0.001"/>
-  <testcase name="testPersonsInIntervals" classname="it.polito.po.test.TestR1_Persons" time="0.016"/>
+  <testcase name="testAddMultiplePersons" classname="it.polito.po.test.TestR1_Persons" time="0"/>
+  <testcase name="testPersonsInIntervals" classname="it.polito.po.test.TestR1_Persons" time="0.017"/>
   <testcase name="testAddPerson" classname="it.polito.po.test.TestR1_Persons" time="0"/>
   <testcase name="testIntervals" classname="it.polito.po.test.TestR1_Persons" time="0"/>
   <testcase name="tesGetAge" classname="it.polito.po.test.TestR1_Persons" time="0"/>
