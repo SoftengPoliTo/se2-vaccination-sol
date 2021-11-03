@@ -11,7 +11,7 @@ version: 0.1
 > ```
 -->
 
-Develop a system to allow planning of a vaccine campaign in an area where severa l vaccination hubs are available.
+Develop a system to allow the planning of a vaccine campaign in an area where severa l vaccination hubs are available.
 
 All classe must be included in the package `it.polito.oop.vaccinaton`. 
 *Facade* class `Vaccines` allows performing all required operations;
