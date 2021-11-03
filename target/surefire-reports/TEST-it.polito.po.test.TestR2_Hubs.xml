@@ -59,10 +59,10 @@
     <property name="java.class.version" value="61.0"/>
   </properties>
   <testcase name="testCapacityUnstaffed" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
-  <testcase name="testHubStaffNegative" classname="it.polito.po.test.TestR2_Hubs" time="0.02"/>
+  <testcase name="testHubStaffNegative" classname="it.polito.po.test.TestR2_Hubs" time="0.021"/>
   <testcase name="textCapacity" classname="it.polito.po.test.TestR2_Hubs" time="0.016"/>
   <testcase name="testCreateHubs" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
   <testcase name="testHubStaffWrongHub" classname="it.polito.po.test.TestR2_Hubs" time="0.017"/>
   <testcase name="testCapacityNonexist" classname="it.polito.po.test.TestR2_Hubs" time="0.016"/>
-  <testcase name="testDuplicateHub" classname="it.polito.po.test.TestR2_Hubs" time="0.016"/>
+  <testcase name="testDuplicateHub" classname="it.polito.po.test.TestR2_Hubs" time="0.015"/>
 </testsuite>
