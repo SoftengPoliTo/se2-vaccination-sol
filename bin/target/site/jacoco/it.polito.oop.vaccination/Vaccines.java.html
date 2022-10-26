@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Vaccines.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Coverage with JaCoCo</a> &gt; <a href="index.source.html" class="el_package">it.polito.oop.vaccination</a> &gt; <span class="el_source">Vaccines.java</span></div><h1>Vaccines.java</h1><pre class="source lang-java linenums">package it.polito.oop.vaccination;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+
+<span class="fc" id="L19">public class Vaccines {</span>
+<span class="fc" id="L20">	public final static int CURRENT_YEAR=java.time.LocalDate.now().getYear();</span>
+	
+	private final static double PRIORITY = 0.4;
+	
+	// fields
+	
+<span class="fc" id="L26">	private Map&lt;String,Person&gt; persons = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L27">	private Map&lt;String,Interval&gt; intervals = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L28">	private Map&lt;String, Hub&gt; hubs = new HashMap&lt;&gt;();</span>
+	private int[] hours;
+	private int allocated;
+	private List&lt;Map&lt;String, List&lt;String&gt;&gt;&gt; weekPlan;
+<span class="fc" id="L32">	private BiConsumer&lt;Integer, String&gt; listener= null;</span>
+
+
+	
+// R1
+
+	/**
+	 * Add a new person to the vaccination system.
+	 * 
+	 * Persons are uniquely identified by SSN (italian &quot;codice fiscale&quot;)
+	 * 
+	 * @param first first name
+	 * @param last  last name
+	 * @param ssn	italian &quot;codice fiscale&quot;
+	 * @param year  birth year
+	 * @return {@code false} if ssn is duplicate, 
+	 */
+	public boolean addPerson(String first, String last, String ssn, int year) {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		if(persons.containsKey(ssn)) return false;</span>
+<span class="fc" id="L51">		Person p = new Person(ssn,last,first, year);</span>
+<span class="fc" id="L52">		persons.put(ssn, p);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">		if(!intervals.isEmpty()) {</span>
+<span class="nc" id="L54">			intervals.values().stream().filter( i -&gt; i.match(p) ).forEach(i -&gt; i.addPerson(p));</span>
+		}
+<span class="fc" id="L56">		return true;</span>
+	}
+	
+	/**
+	 * Count the number of people added to the system
+	 * 
+	 * @return person count
+	 */
+	public int countPeople() {
+<span class="fc" id="L65">		return persons.size();</span>
+	}
+	
+	/**
+	 * Retrieves information about a person.
+	 * Information is formatted as ssn, last name, and first name
+	 * separate by {@code ','} (comma).
+	 * 	 
+	 * @param ssn &quot;codice fiscale&quot; of person searched
+	 * @return info about the person
+	 */
+	public String getPerson(String ssn) {
+<span class="fc" id="L77">		Person person = persons.get(ssn);</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		return person==null?null:person.toString();</span>
+	}
+	
+	
+	/**
+	 * Retrieves of a person given their SSN (codice fiscale).
+	 * 	 
+	 * @param ssn 	&quot;codice fiscale&quot; of person searched
+	 * @return age of person (in years)
+	 */
+	public int getAge(String ssn) {
+<span class="fc" id="L89">		Person person = persons.get(ssn);</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">		return person==null?-1:person.getAge();</span>
+	}
+
+	
+	/**
+	 * Define the age intervals by providing the breaks between intervals.
+	 * The first interval always start at 0 (non included in the breaks) 
+	 * and the last interval goes until infinity (not included in the breaks).
+	 * All intervals are closed on the lower boundary and open at the upper one.
+	 * &lt;p&gt;
+	 * For instance {@code setAgeIntervals(40,50,60)} 
+	 * defines four intervals {@code &quot;[0,40)&quot;, &quot;[40,50)&quot;, &quot;[50,60)&quot;, &quot;[60,+)&quot;}.
+	 * 
+	 * @param breaks the array of breaks
+	 */
+	public void setAgeIntervals(int... breaks) {
+<span class="fc" id="L106">		intervals.clear();</span>
+<span class="fc" id="L107">		int prev=0;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		for(int b : breaks) {</span>
+<span class="fc" id="L109">			Interval i = new Interval(prev,b);</span>
+<span class="fc" id="L110">			intervals.put(i.toString(),i);</span>
+<span class="fc" id="L111">			prev = b;</span>
+		}
+<span class="fc" id="L113">		Interval i = new Interval(prev,Integer.MAX_VALUE);</span>
+<span class="fc" id="L114">		intervals.put(i.toString(),i);</span>
+		
+<span class="fc" id="L116">	}</span>
+	
+	
+	/**
+	 * Retrieves the labels of the age intervals defined.
+	 * 
+	 * Interval labels are formatted as {@code &quot;[0,10)&quot;},
+	 * if the upper limit is infinity {@code '+'} is used
+	 * instead of the number.
+	 * 
+	 * @return labels of the age intervals
+	 */
+	public Collection&lt;String&gt; getAgeIntervals(){
+<span class="fc" id="L129">		return Collections.unmodifiableCollection(intervals.keySet());</span>
+	}
+	
+	
+	/**
+	 * Retrieves people in the given interval.
+	 * 
+	 * The age of the person is computed by subtracting
+	 * the birth year from current year.
+	 * 
+	 * @param interval age interval label
+	 * @return collection of SSN of person in the age interval
+	 */
+	public Collection&lt;String&gt; getInInterval(String interval){
+<span class="fc" id="L143">		Interval i = intervals.get(interval);</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">		if(i==null) return new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L145">		return persons.values().stream()</span>
+<span class="fc" id="L146">				.filter(i::match)</span>
+<span class="fc" id="L147">				.map(Person::getSSN)</span>
+<span class="fc" id="L148">				.collect(Collectors.toList())</span>
+				;
+		// ALTERNATIVELY if interval keep list of persons
+//		return i.getPersons().stream().map(Person::getSSN).collect(Collectors.toList());
+	}
+	
+	// R2
+	/**
+	 * Define a vaccination hub
+	 * 
+	 * @param name name of the hub
+	 * @throws VaccineException in case of duplicate name
+	 */
+	public void defineHub(String name) throws VaccineException {
+<span class="fc bfc" id="L162" title="All 2 branches covered.">		if(hubs.containsKey(name)){</span>
+<span class="fc" id="L163">			throw new VaccineException(&quot;Duplicate hub name: &quot; + name);</span>
+		}
+<span class="fc" id="L165">		Hub h = new Hub(name);</span>
+<span class="fc" id="L166">		hubs.put(name,h);</span>
+<span class="fc" id="L167">	}</span>
+	
+	/**
+	 * Retrieves hub names
+	 * 
+	 * @return hub names
+	 */
+	public Collection&lt;String&gt; getHubs() {
+<span class="fc" id="L175">		return hubs.keySet();</span>
+	}
+
+	/**
+	 * Define the staffing of a hub in terms of
+	 * doctors, nurses and other personnel.
+	 * 
+	 * @param name name of the hub
+	 * @param doctors number of doctors
+	 * @param nurses number of nurses
+	 * @param other number of other personnel
+	 * 
+	 * @throws VaccineException in case of undefined hub, or any number of personnel not greater than 0.
+	 */
+	public void setStaff(String name, int doctors, int nurses, int other) throws VaccineException {
+<span class="fc" id="L190">		Hub h = hubs.get(name);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">		if( h==null ) throw new VaccineException(&quot;No hub named &quot; + name);</span>
+<span class="pc bpc" id="L192" title="3 of 6 branches missed.">		if( doctors&lt;=0 || nurses&lt;=0 || other &lt;=0 ) throw new VaccineException(&quot;Staff must be &gt;0&quot;);</span>
+<span class="fc" id="L193">		h.setStaff(doctors,nurses,other);</span>
+<span class="fc" id="L194">	}</span>
+	
+	
+	/**
+	 * Estimates the hourly vaccination capacity of a hub
+	 * 
+	 * The capacity is computed as the minimum among 
+	 * 10*number_doctor, 12*number_nurses, 20*number_other
+	 * 
+	 * @param hubName name of the hub
+	 * @return hourly vaccination capacity
+	 * 
+	 * @throws VaccineException in case of undefined or hub without staff
+	 */
+	public int estimateHourlyCapacity(String hubName)  throws VaccineException {
+<span class="fc" id="L209">		Hub h = hubs.get(hubName);</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">		if( h==null ) throw new VaccineException(&quot;No hub named &quot; + hubName);</span>
+		
+<span class="fc" id="L212">		return h.estimateCapacity();</span>
+	}
+	
+	// R3
+	/**
+	 * Load people information stored in CSV format.
+	 * 
+	 * The header must start with {@code &quot;SSN,LAST,FIRST&quot;}.
+	 * All lines must have at least three elements.
+	 * 
+	 * In case of error in a person line the line is skipped.
+	 * 
+	 * @param people {@code Reader} for the CSV content
+	 * @return number of correctly added people
+	 * @throws IOException in case of IO error
+	 * @throws VaccineException in case of error in the header
+	 */
+	public long loadPeople(Reader people) throws IOException, VaccineException {
+<span class="fc" id="L230">		BufferedReader br = new BufferedReader(people);</span>
+<span class="fc" id="L231">		String header = br.readLine();</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">		if(! header.matches(&quot;SSN *, *LAST *, *FIRST *, *YEAR.*&quot;)) {</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">			if(listener!=null) listener.accept(1,header);</span>
+<span class="fc" id="L234">			throw new VaccineException(&quot;Wrong header in people file: &quot; + header);</span>
+		}
+<span class="fc" id="L236">		long[] count = {0};</span>
+<span class="fc" id="L237">		int[] lineNo = {1};</span>
+<span class="fc" id="L238">		br.lines().forEach( l -&gt; {</span>
+<span class="fc" id="L239">			lineNo[0]++;</span>
+<span class="fc" id="L240">			String[] fields = l.split(&quot; *, *&quot;);</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">			if(fields.length&lt;4){</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">				if(listener!=null) listener.accept(lineNo[0],l);</span>
+			}else
+<span class="fc bfc" id="L244" title="All 2 branches covered.">			if(addPerson(fields[2], fields[1], fields[0], Integer.parseInt(fields[3]))) count[0]++;</span>
+<span class="pc bpc" id="L245" title="1 of 2 branches missed.">			else if(listener!=null) listener.accept(lineNo[0],l);</span>
+<span class="fc" id="L246">		});</span>
+<span class="fc" id="L247">		return count[0];</span>
+	}
+	
+	// R4
+	/**
+	 * Define the amount of working hours for the days of the week.
+	 * 
+	 * Exactly 7 elements are expected, where the first one correspond to Monday.
+	 * 
+	 * @param hours workings hours for the 7 days.
+	 * @throws VaccineException if there are not exactly 7 elements or if the sum of all hours is less than 0 ore greater than 24*7.
+	 */
+	public void setHours(int... hours) throws VaccineException {
+<span class="pc bpc" id="L260" title="1 of 2 branches missed.">		if(hours.length != 7) throw new VaccineException(&quot;There must be exactly 7 hours elements&quot;);</span>
+<span class="pc bpc" id="L261" title="2 of 6 branches missed.">		for(int h:hours) if(h&lt;0 || h&gt;12)  throw new VaccineException(&quot;Wrong hours: &quot; + h);</span>
+<span class="fc" id="L262">		this.hours=hours;</span>
+<span class="fc" id="L263">	}</span>
+	
+	/**
+	 * Returns the list of standard time slots for all the days of the week.
+	 * 
+	 * Time slots start at 9:00 and occur every 15 minutes (4 per hour) and
+	 * they cover the number of working hours defined through method {@link #setHours}.
+	 * &lt;p&gt;
+	 * Times are formatted as {@code &quot;09:00&quot;} with both minuts and hours on two
+	 * digits filled with leading 0.
+	 * &lt;p&gt;
+	 * Returns a list with 7 elements, each with the time slots of the corresponding day of the week.
+	 * 
+	 * @return the list hours for each day of the week
+	 */
+	public List&lt;List&lt;String&gt;&gt; getHours(){
+<span class="nc" id="L279">		return Arrays.stream(hours)</span>
+<span class="nc" id="L280">				.mapToObj(Integer::valueOf)</span>
+<span class="nc" id="L281">				.map( h -&gt; IntStream.range(0, 4*h)</span>
+<span class="nc" id="L282">							 .mapToObj( x -&gt; String.format(&quot;%02d:%02d&quot;,(9+x/4),15*(x%4)))</span>
+<span class="nc" id="L283">							 .collect(Collectors.toList()))</span>
+<span class="nc" id="L284">				.collect(Collectors.toList());</span>
+	}
+
+	/**
+	 * Compute the available vaccination slots for a given hub on a given day of the week
+	 * &lt;p&gt;
+	 * The availability is computed as the number of working hours of that day
+	 * multiplied by the hourly capacity (see {@link #estimateCapacity} of the hub.
+	 *  
+	 * @return
+	 */
+	public int getDailyAvailable(String hubName, int day){
+<span class="fc" id="L296">		Hub h = hubs.get(hubName);</span>
+		
+		try {
+<span class="fc" id="L299">			return h.estimateCapacity() * hours[day];</span>
+<span class="nc" id="L300">		} catch (Exception e) {</span>
+<span class="nc" id="L301">			System.err.println( e );</span>
+<span class="nc" id="L302">			return -1;</span>
+		}
+	}
+
+	/**
+	 * Compute the available vaccination slots for each hub and for each day of the week
+	 * &lt;p&gt;
+	 * The method returns a map that associates the hub names (keys) to the lists
+	 * of number of available hours for the 7 days.
+	 * &lt;p&gt;
+	 * The availability is computed as the number of working hours of that day
+	 * multiplied by the capacity (see {@link #estimateCapacity} of the hub.
+	 *  
+	 * @return
+	 */
+	public Map&lt;String,List&lt;Integer&gt;&gt; getAvailable(){
+<span class="nc" id="L318">		return hubs.values().stream()</span>
+<span class="nc" id="L319">				.collect(Collectors.toMap(</span>
+						 Hub::getName,
+						 h -&gt; {
+							try {
+<span class="nc" id="L323">								return h.availability(hours);</span>
+<span class="nc" id="L324">							} catch (VaccineException e) {</span>
+<span class="nc" id="L325">								return new ArrayList&lt;&gt;();</span>
+							}
+						}));
+	}
+	
+	/**
+	 * Computes the general allocation plan a hub on a given day.
+	 * Starting with the oldest age intervals 40% 
+	 * of available places are allocated
+	 * to persons in that interval before moving the the next
+	 * interval and considering the remaining places.
+	 * &lt;p&gt;
+	 * The returned value is the list of SSNs (codice fiscale) of the
+	 * persons allocated to that day 
+	 * &lt;p&gt;
+	 * &lt;b&gt;N.B.&lt;/b&gt; no particular order of allocation is guaranteed
+	 * 
+	 * @param hubName  name of the hub
+	 * @param day 	   day of week index (0 = Monday)
+	 * @return the list of daily allocations
+	 */
+	public List&lt;String&gt; allocate(String hubName, int day){
+<span class="fc" id="L347">		int n = getDailyAvailable(hubName, day);</span>
+<span class="fc" id="L348">		List&lt;String&gt; res = new ArrayList&lt;&gt;(n);</span>
+
+		//System.out.println(&quot;Fase 1 (n=&quot; + n +&quot;)&quot;);
+<span class="fc" id="L351">		List&lt;String&gt; ints = intervals.values().stream().sorted(Comparator.reverseOrder()).map(Interval::toString).collect(Collectors.toList());</span>
+<span class="fc bfc" id="L352" title="All 2 branches covered.">		for(String interval : ints) { // add using priority</span>
+<span class="fc" id="L353">			int a = res.size();</span>
+<span class="fc" id="L354">			int quota = (int)((n-res.size())*PRIORITY);</span>
+			//System.out.println(interval + &quot; -&gt; &quot; + quota + &quot; (&quot; + ( quota/(double)n ) +&quot;%)&quot;);
+<span class="fc" id="L356">			getInInterval(interval).stream()</span>
+<span class="fc" id="L357">			.map(persons::get)</span>
+<span class="fc" id="L358">			.filter(Person::available)</span>
+<span class="fc" id="L359">			.limit(quota)</span>
+<span class="fc" id="L360">			.forEach( p -&gt; {</span>
+<span class="fc" id="L361">				p.setAllocated();</span>
+<span class="fc" id="L362">				res.add(p.getSSN());</span>
+<span class="fc" id="L363">			});</span>
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">			if(quota != res.size()-a) {</span>
+<span class="nc" id="L365">				System.out.println(&quot;Could not find &quot; + quota + &quot; from interval &quot; + interval);</span>
+			}
+<span class="fc" id="L367">		}</span>
+		//System.out.println(&quot;Fase  2&quot;);
+<span class="pc bpc" id="L369" title="1 of 2 branches missed.">		for(String interval : ints) { // complete</span>
+<span class="fc" id="L370">			int quota = n-res.size();</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">			if(quota==0) break;</span>
+			//System.out.println(interval + &quot; -&gt; &quot; + quota + &quot; (&quot; + ( quota/(double)n ) +&quot;%)&quot;);
+<span class="fc" id="L373">			getInInterval(interval).stream()</span>
+<span class="fc" id="L374">			.map(persons::get)</span>
+<span class="fc" id="L375">			.filter(Person::available)</span>
+<span class="fc" id="L376">			.limit(quota)</span>
+<span class="fc" id="L377">			.forEach( p -&gt; {</span>
+				p.setAllocated();
+				res.add(p.getSSN());
+			});
+<span class="fc" id="L381">		}</span>
+		
+		// OR using the pre-associated list in intervals
+		
+//		List&lt;Interval&gt; ints = intervals.values().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+//		for(Interval interval : ints) { // add using priority
+//			interval.getPersons().stream()
+//			.filter(Person::available)
+//			.limit((int)((n-res.size())*PRIORITY))
+//			.forEach( p -&gt; {
+//				p.setAllocated();
+//				res.add(p.getSSN());
+//			});
+//		}
+//		for(Interval interval : ints) { // add using priority
+//			int quota = n-res.size();
+//			if(quota==0) break;
+//			interval.getPersons().stream()
+//			.filter(Person::available)
+//			.limit(quota)
+//			.forEach( p -&gt; {
+//				p.setAllocated();
+//				res.add(p.getSSN());
+//			});
+//		}
+<span class="fc" id="L406">		return res;</span>
+	}
+	
+	/**
+	 * Removes all people from allocation lists and 
+	 * clears their allocation status
+	 * 
+	 */
+	public void clearAllocation() {
+<span class="fc" id="L415">		persons.forEach( (ssn,p) -&gt; p.clearAllocated() );</span>
+<span class="fc" id="L416">	}</span>
+	
+	/**
+	 * Computes the general allocation plan for the week.
+	 * For every day, starting with the oldest age intervals
+	 * 40% available places are allocated
+	 * to persons in that interval before moving the the next
+	 * interval and considering the remaining places.
+	 * &lt;p&gt;
+	 * The returned value is a list with 7 elements, one
+	 * for every day of the week, each element is a map that 
+	 * links the name of each hub to the list of SSNs (codice fiscale) 
+	 * of the persons allocated to that day in that hub
+	 * &lt;p&gt;
+	 * &lt;b&gt;N.B.&lt;/b&gt; no particular order of allocation is guaranteed
+	 * but the same invocation (after {@link #clearAllocation}) must return the same 
+	 * allocation.
+	 * 
+	 * @return the list of daily allocations
+	 */
+	public List&lt;Map&lt;String,List&lt;String&gt;&gt;&gt; weekAllocate(){
+<span class="fc" id="L437">		weekPlan = IntStream.range(0, 7)</span>
+<span class="fc" id="L438">		.mapToObj( d -&gt; </span>
+<span class="fc" id="L439">			hubs.keySet().stream()</span>
+<span class="fc" id="L440">			.collect(Collectors.toMap(hubName -&gt; hubName, </span>
+<span class="fc" id="L441">									  hubName -&gt; allocate(hubName,d)))</span>
+		)
+<span class="fc" id="L443">		.collect(Collectors.toList());</span>
+		
+<span class="fc" id="L445">		allocated = weekPlan.stream()</span>
+<span class="fc" id="L446">				.flatMapToInt(m-&gt; m.values().stream().mapToInt(List::size))</span>
+<span class="fc" id="L447">				.sum();</span>
+		
+<span class="fc" id="L449">		return weekPlan;</span>
+	}
+	
+	// R5
+	/**
+	 * Returns the proportion of allocated people
+	 * w.r.t. the total number of persons added
+	 * in the system
+	 * 
+	 * @return proportion of allocated people
+	 */
+	public double propAllocated() {
+<span class="fc" id="L461">		return persons.values().stream().filter(Person::allocated).count() / (double) persons.size();</span>
+	}
+	
+	/**
+	 * Returns the proportion of allocated people
+	 * w.r.t. the total number of persons added
+	 * in the system, divided by age interval.
+	 * &lt;p&gt;
+	 * The map associates the age interval label
+	 * to the proportion of allocates people in that interval
+	 * 
+	 * @return proportion of allocated people by age interval
+	 */
+	public Map&lt;String,Double&gt; propAllocatedAge(){
+//		return persons.values().stream()
+//				.filter(Person::allocated)
+//				.collect(Collectors.groupingBy( 
+//							this::personToInterval,
+//							Collectors.collectingAndThen(Collectors.counting(),
+//														 cnt -&gt; cnt / (double)persons.size()
+//						)));
+		
+<span class="nc" id="L483">		Map&lt;String,Double&gt; res = persons.values().stream()</span>
+<span class="nc" id="L484">				.filter(Person::allocated)</span>
+<span class="nc" id="L485">				.collect(Collectors.groupingBy( </span>
+							this::personToInterval,
+<span class="nc" id="L487">							Collectors.collectingAndThen(Collectors.counting(),</span>
+<span class="nc" id="L488">									 cnt -&gt; (double)cnt</span>
+						)))
+				;
+<span class="nc" id="L491">		res.replaceAll( (i,c) -&gt; c / getInInterval(i).size() );</span>
+<span class="nc" id="L492">		return res;</span>
+
+	}
+
+	/**
+	 * Retrieves the distribution of allocated persons
+	 * among the different age intervals.
+	 * &lt;p&gt;
+	 * For each age intervals the map reports the
+	 * proportion of allocated persons in the corresponding
+	 * interval w.r.t the total number of allocated persons 
+	 * 
+	 * @return
+	 */
+	public Map&lt;String,Double&gt; distributionAllocated(){
+<span class="fc" id="L507">		return persons.values().stream()</span>
+<span class="fc" id="L508">				.filter(Person::allocated)</span>
+<span class="fc" id="L509">				.collect(Collectors.groupingBy( </span>
+							this::personToInterval,
+<span class="fc" id="L511">							Collectors.collectingAndThen(Collectors.counting(),</span>
+<span class="fc" id="L512">														 cnt -&gt; cnt / (double)allocated</span>
+						)));
+	}
+
+	// R6
+	/**
+	 * Defines a listener for the file loading method.
+	 * The {@ accept()} method of the listener is called
+	 * passing the line number and the offending line.
+	 * &lt;p&gt;
+	 * Lines start at 1 with the header line.
+	 * 
+	 * @param listener the listener for load errors
+	 */
+	public void setLoadListener(BiConsumer&lt;Integer,String&gt; listener) {
+<span class="fc" id="L527">		this.listener = listener;</span>
+<span class="fc" id="L528">	}</span>
+	
+	// R7
+	/**
+	 * Computes the details schedule for the week as a further refinement
+	 * of the general week plan
+	 * 
+	 * @return the weekly schedule
+	 */
+	public List&lt;Map&lt;String,Map&lt;String,List&lt;String&gt;&gt;&gt;&gt; detailedSchedule(){
+<span class="nc" id="L538">		return null;</span>
+	}
+	
+
+	
+	/// ---- UTILITY METHODS -----
+	static int ssnToYear(String cf) {
+<span class="nc" id="L545">		int year = Integer.parseInt(cf.substring(6,8));</span>
+<span class="nc bnc" id="L546" title="All 2 branches missed.">		if( year &lt;= Vaccines.CURRENT_YEAR%100 ) year+=2000;</span>
+<span class="nc" id="L547">		else year+=1900;</span>
+<span class="nc" id="L548">		return year;</span>
+	}
+
+	String personToInterval(Person p) {
+<span class="fc" id="L552">		return intervals.entrySet().stream()</span>
+<span class="fc" id="L553">		.filter( e -&gt; e.getValue().match(p.getAge()) )</span>
+<span class="fc" id="L554">		.map(e-&gt;e.getKey())</span>
+<span class="fc" id="L555">		.findFirst().get();</span>
+	}
+	
+	private class Interval implements Comparable&lt;Interval&gt;{
+		int lower,upper;
+		List&lt;Person&gt; people;
+
+<span class="fc" id="L562">		Interval(int l, int u){ </span>
+<span class="fc" id="L563">			this.lower=l; </span>
+<span class="fc" id="L564">			this.upper=u;</span>
+			
+			// optional feature: pre-memorization of people in interval
+<span class="fc" id="L567">			people = persons.values().stream()</span>
+<span class="fc" id="L568">			.filter(this::match)</span>
+<span class="fc" id="L569">			.collect(Collectors.toList());</span>
+<span class="fc" id="L570">		}</span>
+		
+		public void addPerson(Person p) {
+<span class="nc bnc" id="L573" title="All 2 branches missed.">			if(people!=null) people.add(p);</span>
+<span class="nc" id="L574">		}</span>
+
+		@Override
+		public String toString() {
+<span class="fc bfc" id="L578" title="All 2 branches covered.">			return &quot;[&quot;+lower+&quot;,&quot;+(upper==Integer.MAX_VALUE?&quot;+&quot;:upper)+&quot;)&quot;;</span>
+		}
+		boolean match(Person p){
+<span class="fc" id="L581">			return match(p.getAge());</span>
+		}
+		boolean match(int age){
+<span class="fc bfc" id="L584" title="All 4 branches covered.">			return age&gt;=lower &amp;&amp; age&lt;upper;</span>
+		}
+		
+		@Override
+		public int compareTo(Interval other) {
+<span class="fc" id="L589">			return this.lower-other.lower;</span>
+		}
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

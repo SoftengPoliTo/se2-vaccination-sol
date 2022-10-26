@@ -6,7 +6,7 @@ class Person {
 	private String first;
 	private int year;
 	private boolean allocated;
-	
+
 	Person(String cf, String last, String first, int year) {
 		this.cf = cf;
 		this.last = last;
@@ -19,16 +19,24 @@ class Person {
 	}
 
 	public int getAge() {
-		return Vaccines.CURRENT_YEAR-year;
+		return Vaccines.CURRENT_YEAR - year;
 	}
-	
+
 	public String getSSN() {
 		return cf;
 	}
 
-	public boolean available() {return !allocated; }
-	public boolean allocated() {return allocated; }
-	void setAllocated() { allocated=true; }
+	public boolean available() {
+		return !allocated;
+	}
+
+	public boolean allocated() {
+		return allocated;
+	}
+
+	void setAllocated() {
+		allocated = true;
+	}
 
 	public void clearAllocated() {
 		allocated = false;
@@ -36,6 +44,6 @@ class Person {
 
 	@Override
 	public String toString() {
-		return cf+","+last+","+first;
+		return cf + "," + last + "," + first;
 	}
 }
