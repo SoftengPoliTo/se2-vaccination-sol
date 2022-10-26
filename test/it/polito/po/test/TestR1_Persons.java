@@ -24,7 +24,7 @@ public class TestR1_Persons {
 
 	@Test
 	public void testAddPerson() {
-		assertEquals("Initially expeceting no people", 0, v.countPeople());
+		assertEquals("Initially no people accepted", 0, v.countPeople());
 		v.addPerson("John", "White", "JHNWHT65B21K456P", 1965);
 		assertEquals("Wrong number of people", 1, v.countPeople());
 	}
