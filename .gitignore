@@ -1,2 +1,6 @@
 /target/classes/
 /target/test-classes/
+.idea/codeStyles/Project.xml
+.idea/modules.xml
+.idea/codeStyles/codeStyleConfig.xml
+se2-vaccination-sol.iml
