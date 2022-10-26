@@ -51,6 +51,7 @@ public class TestR1_Persons {
        	for(String person : codes) {
        		String[] parts=person.split(",");
        		String p = v.getPerson(parts[0]);
+       		int age = v.getAge(parts[0]);
        		assertNotNull("Missing " + parts[0], p);
        		assertTrue("Person info should start with ssn", p.startsWith(parts[0]));
        		assertTrue("Person info should contain last name", p.contains(parts[1]));
@@ -66,7 +67,7 @@ public class TestR1_Persons {
        		String[] parts=person.split(",");
        		int age = v.getAge(parts[0]);
        		int year = Integer.parseInt(parts[3]);
-       		assertEquals("Wrong age for person from " + year, CURRENT_YEAR - year, age);
+       		assertEquals("Wrong age for person of year " + year, CURRENT_YEAR - year, age);
        	}
 	}
 	
